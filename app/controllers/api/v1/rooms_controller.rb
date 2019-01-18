@@ -4,18 +4,19 @@ class Api::V1::RoomsController < ApplicationController
     render json: @rooms
   end
 
-  def show
-    @room = Room.find(params[:id])
-    render json: @room
-  end
-
   def new
     @room = Room.new
   end
 
   def create
-    @room = Room.create(room_params)
-    render json: @room, status: :created
+    room = Room.new(room_params)
+    if room.save
+      serialized_data = ActiveModelSerializers::Adapter::Json.new(
+        RoomSerializer.new(room)
+      ).serializable_hash
+      ActionCable.server.broadcast 'rooms_channel', serialized_data
+      head :ok
+    end
   end
 
   def edit
@@ -28,15 +29,9 @@ class Api::V1::RoomsController < ApplicationController
     render json: @room
   end
 
-  def destroy
-    @room = Room.find(params[:id])
-    @room.destroy
-    head :no_content
-  end
-
   private
 
   def room_params
-    params.permit(:url)
+    params.require(:room).permit(:url)
   end
 end
