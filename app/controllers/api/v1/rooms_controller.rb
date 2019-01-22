@@ -32,6 +32,6 @@ class Api::V1::RoomsController < ApplicationController
   private
 
   def room_params
-    params.require(:room).permit(:url)
+    params.require(:room).permit(:url, :name, :isPrivate)
   end
 end
