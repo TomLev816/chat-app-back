@@ -37,6 +37,6 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:room).permit(:username, :password, :room_id)
+    params.permit(:username, :password, :room_id)
   end
 end

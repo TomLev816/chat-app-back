@@ -15,7 +15,8 @@ class Api::V1::RoomsController < ApplicationController
         RoomSerializer.new(room)
       ).serializable_hash
       ActionCable.server.broadcast 'rooms_channel', serialized_data
-      head :ok
+      # head :ok
+      render json: room, status: :created
     end
   end
 

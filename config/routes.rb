@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users
-      resources :rooms, only: [:index, :create]
+      resources :rooms, only: [:index, :new, :create]
       resources :messages, only: [:create]
       mount ActionCable.server => '/cable'
     end
