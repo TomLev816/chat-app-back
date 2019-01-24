@@ -21,7 +21,7 @@ class Api::V1::MessagesController < ApplicationController
         MessageSerializer.new(message)
       ).serializable_hash
       MessagesChannel.broadcast_to room, serialized_data
-      render json: message, status: :created
+      head :ok
     end
   end
 
