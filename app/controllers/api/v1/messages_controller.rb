@@ -15,13 +15,13 @@ class Api::V1::MessagesController < ApplicationController
 
   def create
     message = Message.new(message_params)
-    conversation = Conversation.find(message_params[:conversation_id])
+    room = Room.find(message_params[:room_id])
     if message.save
       serialized_data = ActiveModelSerializers::Adapter::Json.new(
         MessageSerializer.new(message)
       ).serializable_hash
-      MessagesChannel.broadcast_to conversation, serialized_data
-      head :ok
+      MessagesChannel.broadcast_to room, serialized_data
+      render json: message, status: :created
     end
   end
 
