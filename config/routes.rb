@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users
+      #  might need to fix ':users, only: %i[create]'
       resources :rooms, only: [:index, :new, :create]
       resources :messages, only: [:create]
       mount ActionCable.server => '/cable'
